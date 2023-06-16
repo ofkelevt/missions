@@ -20,24 +20,34 @@ namespace missions
 
             if (Request["addr"] != null)
             {
-                if (Session["addr"] == null)
-                    row++;
-                else row = Convert.ToInt16(Session["addr"]);
+                if (Session["addr"] != null) 
+                 row = Convert.ToInt16(Session["addr"]);
+                row++;
             }
             if (Request["addl"] != null)
             {
+                if (Session["addl"] != null)
+                    lengh = Convert.ToInt16(Session["addr"]);
                 lengh++;
             }
             if(row != 1)
             {
                 Session["addr"] = row;
             }
-
+            if (lengh != 1)
+            {
+                Session["addl"] = lengh;
+            }
+            if(Convert.ToInt16(Session["addr"]) == 0)
+            {
+                Session["addr"] = 1;
+                Session["addl"] = 1;
+            }
             tablex += "<table>";
-            for(int i = 0; i<row +1; i++)
+                for(int i = 0; i< Convert.ToInt16(Session["addr"]) + 1; i++)
             {
                 tablex += "<tr>" ;
-                for (int j = 0; j < lengh; j++)
+                for (int j = 0; j < Convert.ToInt16(Session["addl"]); j++)
                 {
                     if (i == 0) { tablex += "<th>" + $"title<input type = \"text\" name =\" title{j}\" " + "</th>"; }
                     else tablex += "<td>" + $"mission<input type = \"text\" name =\" text{i}.{j}\" " + "</td>";
