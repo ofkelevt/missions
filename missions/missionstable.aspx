@@ -12,11 +12,6 @@
     <table>
         <tr>
             <td>
-                <form method ="post">
-                    <input type="submit" name="submit" value ="submit text" />
-                </form>
-            </td>
-            <td>
                 <form>
                     <input type ="submit" name="addr" value="add row" />
                 </form>

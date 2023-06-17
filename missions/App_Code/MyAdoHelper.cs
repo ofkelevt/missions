@@ -63,7 +63,7 @@ public class MyAdoHelper
             OleDbConnection conn = ConnectToDb(fileName);
             conn.Open();
             OleDbCommand com = new OleDbCommand(sql, conn);
-            OleDbDataReader data = com.ExecuteReader();
+                OleDbDataReader data = com.ExecuteReader();
             bool found;
             found = (bool)data.Read();// אם יש נתונים לקריאה יושם אמת אחרת שקר - הערך קיים במסד הנתונים
             conn.Close();
