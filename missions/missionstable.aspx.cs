@@ -9,14 +9,12 @@ namespace missions
         public string tablex;
         public int saver;
         public string eror;
+        public string data;
+        public int x;
+        public int y;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Session["data"] == null)
-            {
-                Session["data"] = new string[20, 20];
-            }
-
-            var data = (string[,])Session["data"];
+           
             if (Request["addr"] != null)
             {
                 if (Session["addr"] != null)
@@ -42,48 +40,55 @@ namespace missions
                 Session["addr"] = 1;
                 Session["addl"] = 1;
             }
-            
-            if (Request["submit"] != null)
-            {
-                for (int k = 0; k < row + 1; k++)
-                {
-                    for (int l = 0; l < lengh; l++)
-                    {
-                        if (Request[$"text{k}.{l}"] != null)
-                        {
-                            data[k, l] = Request[$"text{k}.{l}"].ToString();
-                            if (data[k, l].Contains(",.,") == true)
-                            {
-                                if (k == 0) data[k, l] = $"<th>\r\n tytle<input type=\"text\" name=\"text{k}.{l}\"  /> </th>";
-                                else data[k, l] = $"<td>\r\n mission<input type=\"text\" name=\"text{k}.{l}\"  /> </td>";
-                                eror += $"square height:{k + 1} lengh :{l + 1} contains ,., pls remove it and rewrite the sentense";
-                            }
-                            else if(k==0 ) data[k, l] = "<th>"+ Request[$"text{k}.{l}"].ToString() + "</th>";
-                            else data[k, l] = "<td>" + Request[$"text{k}.{l}"].ToString() + "</td>";
-                        }
-                        else data[k, l] = "\"<th>\" + $\"title<input type = \\\"text\\\" name =\\\" title{j}\\\" \" + \"</th>\";";
-                    }
-                }
-                string sql = "UPDATE user SET data ='" + data + "' WHERE username = '"+ Session["user"] + "'"   ;
-                MyAdoHelper.DoQuery("Database1.accdb", sql);
-            }
+
+
+             x = Convert.ToInt16(Session["addl"]);
+             y = Convert.ToInt16(Session["addr"]);
+            data = "{" + $"\"data\":["; 
             tablex += "<table>" +"<form method= \"post \">" ;
-            for (int i = 0; i < Convert.ToInt16(Session["addr"]) + 1; i++)
+            for (int i = 0; i < y + 1; i++)
             {
                 tablex += "<tr>";
-                for (int j = 0; j < Convert.ToInt16(Session["addl"]); j++)
+                for (int j = 0; j < x; j++)
                 {
-                    if (data[i, j] != null)
+                    if (Request[$"text{x*i+j}"] != null)
                     {
-                        tablex += data[i, j];
+
+                        if (i == 0) { tablex += $"<th>" + Request[$"text{x*i+j}"].ToString() + "</th>"; }
+                        else tablex += "<td>" + Request[$"text{x*i+j}"].ToString() + "</td>";
+                        data +="{"+ $"\"tablesqare\" : \"{Request[$"text{x*i+j}"].ToString()}\""+"} ";
                     }
-                    else if (i == 0) { tablex += $"<th>\r\n tytle<input type=\"text\" name=\"text{i}.{j}\"  /> </th>"; }
-                    else tablex += $"<td>\r\n mission<input type=\"text\" name=\"text{i}.{j}\"  /> </td>";
+                    else if (Session[$"text{x*i+j}"] != null)
+                    {
+                        if (i == 0) { tablex += $"<th>" + Session[$"text{x*i+j}"].ToString() + "</th>"; }
+                        else tablex += "<td>" + Session[$"text{x*i+j}"].ToString() + "</td>";
+                        data += "{"+ $"\"tablesqare\" : \"{Session[$"text{x*i+j}"].ToString()}\""+"} ";
+                    }
+
+                    else if (i == 0)
+                    {
+                        tablex += $"<th>\r\n title<input type=\"text\" name=\"text{x*i+j}\"  /> </th>";
+                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\""+"}  ";
+                    }
+                    else  {
+                        tablex +=  $"<td>\r\n mission<input type=\"text\" name=\"text{x*i+j}\"  /> </td>";
+                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\"" +"}  ";
+                    }
+                    if (!(i == y && j == x - 1)) { data += ","; }
+                    
+
+
                 }
                 tablex += "</tr>";
+               
             }
-            tablex += $"<tr><td><input type=\"submit\" name=\"submit\" value = \"submit \"  /> </td><tr>";
+            data += "]}";
+            tablex +=  $"<tr><td><input type=\"submit\" name=\"submit\" value = \"submit \"  /> </td><tr>";
             tablex +="</form>"+ "</table>";
+            if (Request["submit"]!= null) {
+                string sql = "UPDATE user SET data ='" + data + "' WHERE username = '" + Session["user"] + "'";
+                MyAdoHelper.DoQuery("Database1.accdb", sql);
+            }
             
         }
     }
