@@ -51,28 +51,29 @@ namespace missions
                 tablex += "<tr>";
                 for (int j = 0; j < x; j++)
                 {
-                    if (Request[$"text{x*i+j}"] != null)
+                    if (Session[$"text{x * i + j}"] != null)
+                    {
+                        if (i == 0) { tablex += $"<th>" + Session[$"text{x * i + j}"].ToString() + "</th>"; }
+                        else tablex += "<td>" + Session[$"text{x * i + j}"].ToString() + "</td>";
+                        data += "{" + $"\"tablesqare\" : \"{Session[$"text{x * i + j}"].ToString()}\"" + "} ";
+                    }
+                    
+                    else if (Request[$"text{x * i + j}"] != null)
                     {
 
-                        if (i == 0) { tablex += $"<th>" + Request[$"text{x*i+j}"].ToString() + "</th>"; }
-                        else tablex += "<td>" + Request[$"text{x*i+j}"].ToString() + "</td>";
-                        data +="{"+ $"\"tablesqare\" : \"{Request[$"text{x*i+j}"].ToString()}\""+"} ";
-                    }
-                    else if (Session[$"text{x*i+j}"] != null)
-                    {
-                        if (i == 0) { tablex += $"<th>" + Session[$"text{x*i+j}"].ToString() + "</th>"; }
-                        else tablex += "<td>" + Session[$"text{x*i+j}"].ToString() + "</td>";
-                        data += "{"+ $"\"tablesqare\" : \"{Session[$"text{x*i+j}"].ToString()}\""+"} ";
+                        if (i == 0) { tablex += $"<th>" + Request[$"text{x * i + j}"].ToString() + "</th>"; }
+                        else tablex += "<td>" + Request[$"text{x * i + j}"].ToString() + "</td>";
+                        data += "{" + $"\"tablesqare\" : \"{Request[$"text{x * i + j}"].ToString()}\"" + "} ";
                     }
 
                     else if (i == 0)
                     {
                         tablex += $"<th>\r\n title<input type=\"text\" name=\"text{x*i+j}\"  /> </th>";
-                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\""+"}  ";
+                        data += "{"+$"\"tablesqare\" : \"title<input type=\\\"text\\\" name=\\\"text{x*i+j}\\\"/>\""+"}  ";
                     }
                     else  {
                         tablex +=  $"<td>\r\n mission<input type=\"text\" name=\"text{x*i+j}\"  /> </td>";
-                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\"" +"}  ";
+                        data += "{"+$"\"tablesqare\" : \"title<input type=\\\"text\\\" name=\\\"text{x*i+j}\\\"/>\"" +"}  ";
                     }
                     if (!(i == y && j == x - 1)) { data += ","; }
                     
@@ -86,7 +87,7 @@ namespace missions
             tablex +=  $"<tr><td><input type=\"submit\" name=\"submit\" value = \"submit \"  /> </td><tr>";
             tablex +="</form>"+ "</table>";
             if (Request["submit"]!= null) {
-                string sql = "UPDATE user SET data ='" + data + "' WHERE username = '" + Session["user"] + "'";
+                string sql = "UPDATE users SET data ='" + data + "' WHERE username = '" + Session["user"] + "'";
                 MyAdoHelper.DoQuery("Database1.accdb", sql);
             }
             

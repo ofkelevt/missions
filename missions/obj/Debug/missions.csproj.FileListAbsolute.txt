@@ -57,3 +57,13 @@ C:\Users\ievil\source\repos\missions\missions\obj\Debug\missions.csproj.CoreComp
 C:\Users\ievil\source\repos\missions\missions\obj\Debug\missions.csproj.CopyComplete
 C:\Users\ievil\source\repos\missions\missions\obj\Debug\missions.dll
 C:\Users\ievil\source\repos\missions\missions\obj\Debug\missions.pdb
+C:\Users\User\Source\Repos\missions\missions\bin\missions.dll.config
+C:\Users\User\Source\Repos\missions\missions\bin\missions.dll
+C:\Users\User\Source\Repos\missions\missions\bin\missions.pdb
+C:\Users\User\Source\Repos\missions\missions\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\User\Source\Repos\missions\missions\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\User\Source\Repos\missions\missions\obj\Debug\missions.csproj.AssemblyReference.cache
+C:\Users\User\Source\Repos\missions\missions\obj\Debug\missions.csproj.CoreCompileInputs.cache
+C:\Users\User\Source\Repos\missions\missions\obj\Debug\missions.csproj.CopyComplete
+C:\Users\User\Source\Repos\missions\missions\obj\Debug\missions.dll
+C:\Users\User\Source\Repos\missions\missions\obj\Debug\missions.pdb
