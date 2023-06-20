@@ -39,11 +39,36 @@
    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<<<<<<< HEAD
      <form method ="post">
         <%=tablex %>
     </form>
     
      <table>
+=======
+    <body onload="">
+
+    
+    <form method ="post">
+        <%=tablex %>
+    </form>
+    <p id="hi"></p>
+    <script type="text/javascript" >
+        function onload()
+        {
+            const obj = JSON.parse(data);
+            document.getElementById("hi").innerHTML = obj.data[0].tablesqare;
+            for (var i = 0; i < y + 1; i++) {
+                for (var j = 0; j < x; j++) {
+                    Session["text" + x * i + j] = obj.data[x * i + j].tablesqare;
+                }
+            }
+        } 
+        
+        
+    </script>
+    <table>
+>>>>>>> 7a8750861d5175ce8c00caba641031acdcb14a74
         <tr>
             <td>
                 <form>
