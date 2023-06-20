@@ -40,15 +40,21 @@
              var ffname = document.signup.phonenum.value
                  for (var i = 0; i < alphb.length; i++) {
                  var ch = fname.charAt(i);
-                 if (!(num.indexOf(ch) == -1)) {                     alert('your first name cannot conntain numbers')                     return false
+                 if (!(num.indexOf(ch) == -1)) {
+                     alert('your first name cannot conntain numbers')
+                     return false
                  }
                  var ch = fname.charAt(i);
                 
                  var ch = lname.charAt(i);
-                 if (!(num.indexOf(ch) == -1)) {                     alert('your last name cannot conntain numbers')                     return false
+                 if (!(num.indexOf(ch) == -1)) {
+                     alert('your last name cannot conntain numbers')
+                     return false
                  }
                  var ch = ffname.charAt(i);
-                 if (num.indexOf(ch) == -1) {                     alert('your phone number must only conntain numbers')                     return false
+                 if (num.indexOf(ch) == -1) {
+                     alert('your phone number must only conntain numbers')
+                     return false
                  }
              }
      </script>

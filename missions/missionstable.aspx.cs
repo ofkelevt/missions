@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 
 namespace missions
 {
@@ -10,11 +11,12 @@ namespace missions
         public int saver;
         public string eror;
         public string data;
+        
         public int x;
         public int y;
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+          
             if (Request["addr"] != null)
             {
                 if (Session["addr"] != null)
@@ -40,53 +42,51 @@ namespace missions
                 Session["addr"] = 1;
                 Session["addl"] = 1;
             }
-
-
-             x = Convert.ToInt16(Session["addl"]);
-             y = Convert.ToInt16(Session["addr"]);
-            data = "{" + $"\"data\":["; 
-            tablex += "<table>" +"<form method= \"post \">" ;
-            for (int i = 0; i < y + 1; i++)
-            {
-                tablex += "<tr>";
-                for (int j = 0; j < x; j++)
+            string sql2 = "Select data FROM Users WHERE username ='" + Session["user"] + "'";
+            data = MyAdoHelper.ExecuteDataTable("Database1.accdb", sql2).ToString(); 
+            
+                x = Convert.ToInt16(Session["addl"]);
+                y = Convert.ToInt16(Session["addr"]);
+                data = "{" + $"\"data\":[";
+                tablex += "<table>" + "<form method= \"post \">";
+                for (int i = 0; i < y + 1; i++)
                 {
-                    if (Request[$"text{x*i+j}"] != null)
+                    tablex += "<tr>";
+                    for (int j = 0; j < x; j++)
+                    {
+                    if (Request[$"text{x * i + j}"] != null)
                     {
 
-                        if (i == 0) { tablex += $"<th>" + Request[$"text{x*i+j}"].ToString() + "</th>"; }
-                        else tablex += "<td>" + Request[$"text{x*i+j}"].ToString() + "</td>";
-                        data +="{"+ $"\"tablesqare\" : \"{Request[$"text{x*i+j}"].ToString()}\""+"} ";
+                         if (i == 0) { tablex += $"<th>" + Request[$"text{x * i + j}"].ToString() + "</th>"; }
+                         else tablex += "<td>" + Request[$"text{x * i + j}"].ToString() + "</td>";
+                         data += "{" + $"\"tablesqare\" : \"{Request[$"text{x * i + j}"].ToString()}\"" + "} ";
                     }
-                    else if (Session[$"text{x*i+j}"] != null)
-                    {
-                        if (i == 0) { tablex += $"<th>" + Session[$"text{x*i+j}"].ToString() + "</th>"; }
-                        else tablex += "<td>" + Session[$"text{x*i+j}"].ToString() + "</td>";
-                        data += "{"+ $"\"tablesqare\" : \"{Session[$"text{x*i+j}"].ToString()}\""+"} ";
-                    }
-
                     else if (i == 0)
                     {
-                        tablex += $"<th>\r\n title<input type=\"text\" name=\"text{x*i+j}\"  /> </th>";
-                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\""+"}  ";
+                        tablex += $"<th>\r\n title<input type=\"text\" name=\"text{x * i + j}\"  id=\"text{x*i+j}\"  />   </th>";
+                        if ($"<td>\r\nmission<input type=\"text\" name=\"text{x * i + j}\" id=\"text{x * i + j}\"  />   </td>".ToString() == $"<td>\r\nmission<input type=\"text\" name=\"text{x * i + j}\"   />   </td>")
+                            data += "{" + $"\"tablesqare\": \"empty\"" + "}  ";
+                        else data += $"{{   \"tablesqare\":title<input type=\"text\" name=\"text{x * i + j}\" id=\"text{x * i + j}\"  />}}";
                     }
-                    else  {
-                        tablex +=  $"<td>\r\n mission<input type=\"text\" name=\"text{x*i+j}\"  /> </td>";
-                        data += "{"+$"\"tablesqare\" : \"title<input type=\'text\' name=\'text{x*i+j}\'/>\"" +"}  ";
+                    else
+                    {
+                        tablex += $"<td>\r\nmission<input type=\"text\" name=\"text{x * i + j}\" id=\"text{x * i + j}\"  />   </td>";
+                        if ($"<td>\r\nmission<input type=\"text\" name=\"text{x * i + j}\" id=\"text{x * i + j}\"  />   </td>".ToString() == $"<td>\r\nmission<input type=\"text\" name=\"text{x * i + j}\"   />   </td>")
+                            data += "{" + $"\"tablesqare\": \"empty\"" + "}  ";
+                        else data += $"{{\"tablesqare\":mission<input type=\"text\" name=\"text{x * i + j}\" id=\"text{x * i + j}\"  /> }} ";
                     }
                     if (!(i == y && j == x - 1)) { data += ","; }
-                    
-
+                    }
+                    tablex += "</tr>";
 
                 }
-                tablex += "</tr>";
-               
-            }
-            data += "]}";
-            tablex +=  $"<tr><td><input type=\"submit\" name=\"submit\" value = \"submit \"  /> </td><tr>";
-            tablex +="</form>"+ "</table>";
+                data += "]}";
+                tablex += $"<tr><td><input type=\"submit\" name=\"submit\" value = \"submit \"  /> </td><tr>";
+                tablex += "</form>" + "</table>";
+            
+            
             if (Request["submit"]!= null) {
-                string sql = "UPDATE user SET data ='" + data + "' WHERE username = '" + Session["user"] + "'";
+                string sql = "UPDATE users SET data ='" + data + "' WHERE username = '" + Session["user"] + "'";
                 MyAdoHelper.DoQuery("Database1.accdb", sql);
             }
             

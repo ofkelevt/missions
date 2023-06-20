@@ -16,7 +16,7 @@ namespace missions
             if (Request["submitsign"] != null)
             {
                 string username = Request["user"].ToString();
-                string sql = "Select * FROM Users WHERE user='" + username + "'";
+                string sql = "Select * FROM Users WHERE username ='" + username + "'";
                 if (MyAdoHelper.IsExist("Database1.accdb", sql))
                 {
                     eror = "username already exists<br/>";
@@ -26,7 +26,7 @@ namespace missions
                 {
                     string users = Request["user"].ToString();
                     string password = Request["spass"].ToString();
-                    string fname = Request["fanme"].ToString();
+                    string fname = Request["fname"].ToString();
                     string lname = Request["lname"].ToString();
                     string phonenum = Request["phonenum"].ToString();
                     string email = Request["email"].ToString();

@@ -4,25 +4,46 @@
         table,td,tr,th{border:solid black 2px; }
    
     </style>
+    <script type="text/javascript">
+        var data = '<%=data %>';
+        var y = <%=y%>
+        var x = <%=x%>
+        
+        function mycode() {
+            alert('onload');
+            const obj = JSON.parse(data);
+            alert(obj.data[0].tablesqare);
+            for (var i = 0; i < y + 1; i++) {
+                for (var j = 0; j < x; j++) {
+                    if (obj.data[x * i + j].tablesqare != "empty") {
+                        var e = document.getElementById("text" + x * i + j);
+                        e.title = obj.data[x * i + j].tablesqare;
+                    }
+                    else if (i == 0) {
+                        var e = document.getElementById("text" + x * i + j);
+                        e.title = "$\"title<input type=\"text\" name=\"text{x * i + j}\"  />"
+                    }
+                        else {
+                        var e = document.getElementById("text" + x * i + j);
+                        e.title = "$\"mission<input type=\"text\" name=\"text{x * i + j}\"  />" }
+                    //else Window.localStorage("text" + x * i + j, "$\"mission<input type=\"text\" name=\"text{x * i + j}\"  />") 
+                  
+                }
+            }
+            
+        }
+
+        
+        window.onload = mycode();
+    </script>
+   
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <form method ="post">
+     <form method ="post">
         <%=tablex %>
     </form>
-    <p id="hi"></p>
-    <script type="text/javascript">
-        const obj = JSON.parse(data);
-        document.getElementById("hi").innerHTML = obj.data[0].tablesqare;
-        for (var i = 0; i < y + 1; i++)
-        {
-            for (var j = 0; j < x; j++)
-            {
-                Session["text" + x * i + j] = obj.data[x * i + j].tablesqare;
-            }
-        }
-        
-    </script>
-    <table>
+    
+     <table>
         <tr>
             <td>
                 <form>
@@ -38,4 +59,5 @@
         </tr>
    </table>
    
+
 </asp:Content>
